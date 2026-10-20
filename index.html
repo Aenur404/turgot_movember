@@ -285,19 +285,37 @@
             height: 100%;
             border-radius: 50%;
             overflow: hidden;
-            background: #cbd5e1;
+            background: var(--turgot-blue);
             border: 3px solid #ffffff;
+            position: relative; /* Indispensable pour superposer le voile bleu */
+        }
+
+        /* Calque de filtre bleu Turgot par-dessus la photo */
+        .photo-inner::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 25, 91, 0.55); /* Bleu Turgot semi-transparent */
+            mix-blend-mode: color; /* Teinte l'image en profondeur */
+            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .photo-inner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: sepia(18%) contrast(108%);
+            /* Noir & blanc contrasté sous le calque bleu = effet duotone bleu */
+            filter: grayscale(100%) contrast(115%) brightness(95%);
             transition: transform 0.4s ease, filter 0.4s ease;
         }
 
-        .photo-inner img.revealed {
+        /* Quand l'élève clique : le filtre bleu disparaît et les vraies couleurs reviennent */
+        .photo-inner.revealed::after {
+            opacity: 0;
+        }
+
+        .photo-inner.revealed img {
             filter: none;
             transform: scale(1.06);
         }
@@ -749,7 +767,7 @@
             document.getElementById('progress-bar').style.width = Math.max(15, progressPercent) + '%';
 
             const imgEl = document.getElementById('quiz-img');
-            imgEl.classList.remove('revealed');
+            imgEl.parentElement.classList.remove('revealed');
             imgEl.src = q.image;
 
             const bannerEl = document.getElementById('name-banner');
@@ -780,7 +798,7 @@
             bannerEl.innerText = q.title;
             bannerEl.classList.add('revealed');
 
-            document.getElementById('quiz-img').classList.add('revealed');
+            document.getElementById('quiz-img').parentElement.classList.add('revealed');
 
             buttons.forEach((btn, idx) => {
                 btn.disabled = true;
