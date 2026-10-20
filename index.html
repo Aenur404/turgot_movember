@@ -3,402 +3,658 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movember au Lycée Professionnel Turgot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Movember • Lycée Professionnel Turgot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --turgot-blue: #00195B;
+            --turgot-blue-light: #1e3a8a;
             --turgot-green: #85c431;
-            --turgot-green-hover: #75ad28;
-            --turgot-light: #f4f7fa;
-            --turgot-dark: #0a1128;
+            --turgot-neon: #80ff00;
+            --turgot-dark: #070b19;
+            --surface: #ffffff;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: var(--turgot-dark);
-            color: var(--turgot-dark);
+            background: radial-gradient(circle at top, #10235c 0%, var(--turgot-dark) 100%);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 10px;
+            padding: 16px;
         }
 
-        .poster-container {
+        /* Conteneur Principal */
+        .app-card {
             width: 100%;
-            max-width: 480px;
-            background: #ffffff;
-            border: 6px solid var(--turgot-blue);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
-            padding: 20px;
+            max-width: 460px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(133, 196, 49, 0.35);
             position: relative;
-            border-radius: 8px;
         }
 
-        header {
+        /* Bandeau Noir pour intégrer parfaitement logo_turgot.jpg */
+        .brand-header {
+            background: #000000;
+            padding: 18px 20px 14px 20px;
             text-align: center;
-            border-bottom: 3px double var(--turgot-blue);
-            padding-bottom: 12px;
-            margin-bottom: 15px;
+            border-bottom: 4px solid var(--turgot-green);
+            position: relative;
         }
 
-        .logo-area {
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+        .school-logo {
+            max-width: 250px;
+            width: 80%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
-        header h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.9rem;
-            color: var(--turgot-blue);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .subtitle-banner {
+        /* Sous-en-tête Movember */
+        .event-banner {
             background: var(--turgot-blue);
-            color: #fff;
+            color: #ffffff;
+            text-align: center;
+            padding: 14px 20px;
+            position: relative;
+            box-shadow: inset 0 -4px 10px rgba(0,0,0,0.2);
+        }
+
+        .event-banner h1 {
             font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
-            padding: 6px 12px;
-            display: inline-block;
-            margin-top: 8px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-            border-left: 4px solid var(--turgot-green);
+            font-size: 1.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .event-subtitle {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--turgot-green);
+            margin-top: 3px;
+        }
+
+        /* Corps de l'application */
+        .app-body {
+            padding: 24px 22px;
         }
 
         .screen {
             display: none;
+            animation: slideUp 0.35s ease-out forwards;
         }
 
         .screen.active {
             display: block;
         }
 
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Écran 1 : Accueil */
+        .mustache-hero {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .mustache-svg {
+            width: 75px;
+            height: auto;
+            fill: var(--turgot-blue);
+            filter: drop-shadow(0 4px 6px rgba(0,25,91,0.15));
+        }
+
         .intro-text {
             text-align: center;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            color: #333;
-            line-height: 1.5;
+            font-size: 0.92rem;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 22px;
+            background: var(--bg-light);
+            padding: 14px;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--turgot-blue);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
             color: var(--turgot-blue);
-            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .select-wrapper {
+            position: relative;
         }
 
         select {
             width: 100%;
-            padding: 10px;
-            border: 2px solid var(--turgot-blue);
-            background: #fff;
+            padding: 14px 16px;
+            border: 2px solid #cbd5e1;
+            background: var(--surface);
             font-family: 'Montserrat', sans-serif;
             font-size: 1rem;
-            border-radius: 6px;
-            color: var(--turgot-dark);
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            background: var(--turgot-green);
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-            transition: background 0.2s, transform 0.1s;
-            margin-top: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn:hover {
-            background: var(--turgot-green-hover);
-            transform: translateY(-1px);
-        }
-
-        .quiz-card {
-            text-align: center;
-        }
-
-        .question-counter {
-            font-family: 'Cinzel', serif;
-            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
             color: var(--turgot-blue);
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-transform: uppercase;
+            appearance: none;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        .photo-frame-container {
-            width: 190px;
-            height: 190px;
-            margin: 0 auto 10px auto;
-            border: 5px solid var(--turgot-blue);
+        .select-wrapper::after {
+            content: "▼";
+            font-size: 0.8rem;
+            color: var(--turgot-blue);
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--turgot-blue);
+            box-shadow: 0 0 0 4px rgba(0, 25, 91, 0.1);
+        }
+
+        .btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: linear-gradient(135deg, var(--turgot-green) 0%, #68a318 100%);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(133, 196, 49, 0.35);
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(133, 196, 49, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Écran 2 : Quiz */
+        .quiz-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .question-badge {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--turgot-blue);
+            background: #e0e7ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .class-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 99px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--turgot-blue), var(--turgot-green));
+            width: 25%;
+            border-radius: 99px;
+            transition: width 0.4s ease;
+        }
+
+        /* Cadre Photo & Ruban */
+        .portrait-section {
+            position: relative;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .photo-ring {
+            width: 165px;
+            height: 165px;
+            margin: 0 auto;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(135deg, var(--turgot-blue), var(--turgot-green));
+            box-shadow: 0 10px 25px rgba(0, 25, 91, 0.22);
+        }
+
+        .photo-inner {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
             background: #cbd5e1;
-            position: relative;
+            border: 3px solid #ffffff;
         }
 
-        .photo-frame-container img {
+        .photo-inner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: sepia(25%) contrast(110%);
+            filter: sepia(18%) contrast(108%);
+            transition: transform 0.4s ease, filter 0.4s ease;
         }
 
-        .name-banner {
+        .photo-inner img.revealed {
+            filter: none;
+            transform: scale(1.06);
+        }
+
+        .mystery-ribbon {
             background: var(--turgot-blue);
-            color: #fff;
+            color: #ffffff;
             font-family: 'Cinzel', serif;
             font-size: 0.9rem;
-            padding: 6px 14px;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 99px;
             display: inline-block;
-            border: 2px solid var(--turgot-green);
-            border-radius: 4px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            margin-top: -16px;
+            position: relative;
+            z-index: 2;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            letter-spacing: 0.5px;
+            transition: var(--transition);
         }
 
-        .options-grid {
-            display: grid;
+        .mystery-ribbon.revealed {
+            background: var(--turgot-green);
+            color: #000000;
+        }
+
+        /* Grille de 4 boutons de réponse avec pastilles A, B, C, D */
+        .options-list {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
 
         .option-btn {
-            background: var(--turgot-light);
-            border: 2px solid var(--turgot-blue);
-            padding: 12px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 6px;
+            background: var(--bg-light);
+            border: 2px solid #e2e8f0;
+            padding: 11px 14px;
+            border-radius: var(--radius-md);
             cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
+            transition: var(--transition);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            width: 100%;
+            text-align: left;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .option-letter {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #e2e8f0;
             color: var(--turgot-blue);
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
         }
 
-        .option-btn:hover {
-            background: #e1ecf8;
-            border-color: var(--turgot-green);
+        .option-label {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-main);
+            flex-grow: 1;
         }
 
+        .option-status {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--turgot-blue);
+            background: #eff6ff;
+            transform: translateX(4px);
+        }
+
+        .option-btn:hover:not(:disabled) .option-letter {
+            background: var(--turgot-blue);
+            color: #ffffff;
+        }
+
+        /* États Bonne / Mauvaise réponse */
         .option-btn.correct {
-            background: #d4edda !important;
-            border-color: #28a745 !important;
-            color: #155724;
+            background: #ecfdf5 !important;
+            border-color: #10b981 !important;
+            transform: scale(1.01);
+        }
+        .option-btn.correct .option-letter {
+            background: #10b981 !important;
+            color: #ffffff !important;
+        }
+        .option-btn.correct .option-label {
+            color: #065f46 !important;
         }
 
         .option-btn.incorrect {
-            background: #f8d7da !important;
-            border-color: #dc3545 !important;
-            color: #721c24;
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            opacity: 0.85;
+        }
+        .option-btn.incorrect .option-letter {
+            background: #ef4444 !important;
+            color: #ffffff !important;
+        }
+        .option-btn.incorrect .option-label {
+            color: #991b1b !important;
         }
 
-        .results-header {
+        /* Écran 3 : Résultats */
+        .score-card {
             text-align: center;
-            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--turgot-blue) 0%, #0d2875 100%);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 18px;
+            box-shadow: 0 10px 20px rgba(0, 25, 91, 0.2);
         }
 
-        .score-box {
-            font-size: 2rem;
+        .score-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #cbd5e1;
+        }
+
+        .score-number {
             font-family: 'Cinzel', serif;
-            color: var(--turgot-blue);
-            margin: 8px 0;
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--turgot-green);
+            margin: 4px 0;
         }
 
-        .awareness-card {
-            background: var(--turgot-light);
-            border: 2px solid var(--turgot-blue);
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin-top: 10px;
+        .score-class {
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.12);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 99px;
+            margin-top: 4px;
         }
 
-        .awareness-card h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 0.95rem;
+        .awareness-box {
+            background: var(--bg-light);
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid var(--turgot-green);
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+
+        .awareness-box h3 {
+            font-size: 0.92rem;
             color: var(--turgot-blue);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .awareness-card ul {
+        .awareness-box ul {
             list-style: none;
             font-size: 0.8rem;
-            line-height: 1.4;
+            line-height: 1.5;
+            color: #334155;
         }
 
-        .awareness-card li {
-            margin-bottom: 6px;
-            padding-left: 16px;
+        .awareness-box li {
+            margin-bottom: 7px;
+            padding-left: 14px;
             position: relative;
         }
 
-        .awareness-card li::before {
-            content: "•";
+        .awareness-box li::before {
+            content: "▪";
             color: var(--turgot-green);
-            font-weight: bold;
             position: absolute;
             left: 0;
-            font-size: 1.2rem;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 15px;
-            border-top: 2px solid var(--turgot-blue);
-            padding-top: 10px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.7rem;
-            color: var(--turgot-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
+            font-weight: bold;
         }
 
         .blocked-msg {
             text-align: center;
             padding: 20px;
-            font-size: 0.95rem;
-            color: #721c24;
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 6px;
-            margin-top: 20px;
-            line-height: 1.4;
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: var(--radius-md);
+            color: #92400e;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        /* Pied de page */
+        footer {
+            background: var(--bg-light);
+            border-top: 1px solid #e2e8f0;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-reset {
+            cursor: pointer;
+            opacity: 0.35;
+            transition: opacity 0.2s;
+            font-size: 0.85rem;
+            user-select: none;
+        }
+
+        .admin-reset:hover {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
 
-    <div class="poster-container">
-        <header>
-            <div class="logo-area">Lycée Professionnel Turgot • Roubaix</div>
+    <div class="app-card">
+        <!-- Bandeau Noir avec le logo du LP Turgot -->
+        <div class="brand-header">
+            <img src="logo_turgot.png" alt="Logo Lycée Professionnel Turgot" class="school-logo" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
+            <div id="fallback-logo" style="display:none; color:#fff; font-family:'Cinzel',serif; font-weight:700; letter-spacing:1.5px;">
+                LYCÉE PROFESSIONNEL <span style="color:var(--turgot-green);">TURGOT</span>
+            </div>
+        </div>
+
+        <!-- Sous-bannière Movember -->
+        <div class="event-banner">
             <h1>Movember</h1>
-            <div class="subtitle-banner">Le Quiz des Moustaches</div>
-        </header>
-
-        <!-- ÉCRAN 1 : ACCUEIL -->
-        <div id="screen-welcome" class="screen active">
-            <div class="intro-text">
-                Défiez vos amis ! Sauriez-vous reconnaître les moustaches légendaires du personnel de Turgot ? Testez vos connaissances et soutenez la santé masculine.
-            </div>
-
-            <div id="form-content">
-                <div class="form-group">
-                    <label for="student-class">Sélectionnez votre classe :</label>
-                    <select id="student-class">
-                        <option value="1ELEC">1ELEC</option>
-                        <option value="1EPCA">1EPCA</option>
-                        <option value="1EPCB">1EPCB</option>
-                        <option value="1MCVA1">1MCVA1</option>
-                        <option value="1MCVA2">1MCVA2</option>
-                        <option value="1MCVA3">1MCVA3</option>
-                        <option value="1MCVA4">1MCVA4</option>
-                        <option value="1MCVB">1MCVB</option>
-                        <option value="1MELECA">1MELECA</option>
-                        <option value="1MELECB">1MELECB</option>
-                        <option value="2MRCA">2MRCA</option>
-                        <option value="2MRCB">2MRCB</option>
-                        <option value="2MRCC">2MRCC</option>
-                        <option value="2MRCD">2MRCD</option>
-                        <option value="2TENA">2TENA</option>
-                        <option value="2TENB">2TENB</option>
-                        <option value="TELEC">TELEC</option>
-                        <option value="TEPCA">TEPCA</option>
-                        <option value="TEPCB">TEPCB</option>
-                        <option value="TMCVA1">TMCVA1</option>
-                        <option value="TMCVA2">TMCVA2</option>
-                        <option value="TMCVA3">TMCVA3</option>
-                        <option value="TMCVA4">TMCVA4</option>
-                        <option value="TMCVAD">TMCVAD</option>
-                        <option value="TMCVB">TMCVB</option>
-                        <option value="TMELECA">TMELECA</option>
-                        <option value="TMELECB">TMELECB</option>
-                    </select>
-                </div>
-                <button class="btn" onclick="startQuiz()">Commencer le Quiz</button>
-            </div>
-
-            <div id="blocked-container" style="display: none;" class="blocked-msg">
-                ⚠️ Tu as déjà participé depuis cet appareil ! Merci d'avoir joué le jeu pour le Lycée Turgot. Retrouve les résultats à la fin du mois !
-            </div>
+            <div class="event-subtitle">Le Grand Quiz des Moustaches</div>
         </div>
 
-        <!-- ÉCRAN 2 : QUIZ -->
-        <div id="screen-quiz" class="screen">
-            <div class="quiz-card">
-                <div class="question-counter" id="question-counter">Question 1 sur 4</div>
-                
-                <div class="photo-frame-container">
-                    <img id="quiz-img" src="" alt="Moustache Mystère">
+        <div class="app-body">
+            <!-- ÉCRAN 1 : ACCUEIL -->
+            <div id="screen-welcome" class="screen active">
+                <div class="mustache-hero">
+                    <svg class="mustache-svg" viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 18C27 18 24 10 16 10C8 10 2 16 2 22C2 25 5 26 7 24C4 21 7 16 13 16C19 16 22 24 29 24C30.8 24 31.5 23 32 22C32.5 23 33.2 24 35 24C42 24 45 16 51 16C57 16 60 21 57 24C59 26 62 25 62 22C62 16 56 10 48 10C40 10 37 18 32 18Z"/>
+                    </svg>
                 </div>
 
-                <div class="name-banner" id="name-banner">M. ❓</div>
+                <div class="intro-text">
+                    Saurez-vous reconnaître qui se cache derrière les moustaches du lycée ? Sélectionnez votre classe et tentez un sans-faute pour remporter le défi !
+                </div>
 
-                <div class="options-grid" id="options-grid"></div>
+                <div id="form-content">
+                    <div class="form-group">
+                        <label for="student-class">Votre classe :</label>
+                        <div class="select-wrapper">
+                            <select id="student-class">
+                                <option value="1ELEC">1ELEC</option>
+                                <option value="1EPCA">1EPCA</option>
+                                <option value="1EPCB">1EPCB</option>
+                                <option value="1MCVA1">1MCVA1</option>
+                                <option value="1MCVA2">1MCVA2</option>
+                                <option value="1MCVA3">1MCVA3</option>
+                                <option value="1MCVA4">1MCVA4</option>
+                                <option value="1MCVB">1MCVB</option>
+                                <option value="1MELECA">1MELECA</option>
+                                <option value="1MELECB">1MELECB</option>
+                                <option value="2MRCA">2MRCA</option>
+                                <option value="2MRCB">2MRCB</option>
+                                <option value="2MRCC">2MRCC</option>
+                                <option value="2MRCD">2MRCD</option>
+                                <option value="2TENA">2TENA</option>
+                                <option value="2TENB">2TENB</option>
+                                <option value="TELEC">TELEC</option>
+                                <option value="TEPCA">TEPCA</option>
+                                <option value="TEPCB">TEPCB</option>
+                                <option value="TMCVA1">TMCVA1</option>
+                                <option value="TMCVA2">TMCVA2</option>
+                                <option value="TMCVA3">TMCVA3</option>
+                                <option value="TMCVA4">TMCVA4</option>
+                                <option value="TMCVAD">TMCVAD</option>
+                                <option value="TMCVB">TMCVB</option>
+                                <option value="TMELECA">TMELECA</option>
+                                <option value="TMELECB">TMELECB</option>
+                                <option value="PAE BAC">PAE BAC</option>
+                                <option value="PAE CAP">PAE CAP</option>
+                                <option value="PREOR">PREOR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="startQuiz()">
+                        <span>Lancer le Quiz</span>
+                        <span>➔</span>
+                    </button>
+                </div>
+
+                <div id="blocked-container" style="display: none;" class="blocked-msg">
+                    🎉 <strong>Participation déjà enregistrée !</strong><br><br>
+                    Merci d'avoir défendu les couleurs de ta classe. Rendez-vous à la fin du mois pour découvrir le classement du Lycée Turgot !
+                </div>
             </div>
-        </div>
 
-        <!-- ÉCRAN 3 : RÉSULTATS & SENSIBILISATION -->
-        <div id="screen-results" class="screen">
-            <div class="results-header">
-                <h2 style="font-family: 'Cinzel', serif; color: var(--turgot-blue);">Quiz Terminé !</h2>
-                <div class="score-box" id="final-score-text">Score : 4/4</div>
-                <p id="class-notif" style="font-size: 0.85rem; color: var(--turgot-blue); font-weight: 600;"></p>
+            <!-- ÉCRAN 2 : QUIZ -->
+            <div id="screen-quiz" class="screen">
+                <div class="quiz-top-bar">
+                    <span class="question-badge" id="question-counter">Question 1 / 4</span>
+                    <span class="class-badge" id="active-class-badge">Classe : ---</span>
+                </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-bar"></div>
+                </div>
+
+                <div class="portrait-section">
+                    <div class="photo-ring">
+                        <div class="photo-inner">
+                            <img id="quiz-img" src="" alt="Moustache Mystère">
+                        </div>
+                    </div>
+                    <div class="mystery-ribbon" id="name-banner">M. ❓ Mystère</div>
+                </div>
+
+                <div class="options-list" id="options-grid"></div>
             </div>
 
-            <div class="awareness-card">
-                <h3>🛑 Derrière la moustache, un vrai combat !</h3>
-                <ul>
-                    <li><strong>Santé mentale :</strong> Le suicide touche particulièrement les jeunes hommes. Oser dire "ça ne va pas" et écouter ses proches sauve des vies.</li>
-                    <li><strong>Dépistage précoce :</strong> Les cancers de la prostate et des testicules détectés à temps se soignent à plus de 95 %. Restons vigilants.</li>
-                    <li><strong>Solidarité Turgot :</strong> Prenons soin de nous, garçons comme filles !</li>
-                </ul>
-            </div>
+            <!-- ÉCRAN 3 : RÉSULTATS -->
+            <div id="screen-results" class="screen">
+                <div class="score-card">
+                    <div class="score-title">Score Final</div>
+                    <div class="score-number" id="final-score-text">4 / 4</div>
+                    <div class="score-class" id="class-notif">Classe : ---</div>
+                </div>
 
-            <button class="btn" onclick="location.reload()">Retour à l'accueil</button>
+                <div class="awareness-box">
+                    <h3>💙 Pourquoi Movember au lycée ?</h3>
+                    <ul>
+                        <li><strong>Santé mentale :</strong> Parler de ses difficultés et demander de l'aide est une vraie preuve de force, pas une faiblesse.</li>
+                        <li><strong>Prévention :</strong> S'informer tôt sur les maladies masculines permet un dépistage efficace à plus de 95 %.</li>
+                        <li><strong>Esprit d'équipe :</strong> À Turgot, on veille les uns sur les autres !</li>
+                    </ul>
+                </div>
+
+                <button class="btn-primary" onclick="location.reload()">Terminer</button>
+            </div>
         </div>
 
         <footer>
-            Novembre 2026 • Soutenez la santé masculine
+            <span>Novembre 2026 • LP Turgot Roubaix</span>
+            <span class="admin-reset" onclick="resetQuizAdmin()" title="Réinitialiser pour tester">🔒</span>
         </footer>
     </div>
 
@@ -407,35 +663,36 @@
             {
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
                 title: "M. DUPONT",
-                options: ["M. Dupont (Maths)", "M. Martin (Histoire)", "M. Bernard (EPS)"],
+                options: ["M. Dupont (Maths)", "M. Martin (Histoire)", "M. Bernard (EPS)", "M. Leroy (SVT)"],
                 correct: 0
             },
             {
                 image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
                 title: "M. LE CPE",
-                options: ["M. Leroy (Agent)", "M. Le CPE", "M. Petit (Lettres)"],
+                options: ["M. Thomas (Agent)", "M. Le CPE", "M. Petit (Lettres)", "M. Robert (Eco-Gestion)"],
                 correct: 1
             },
             {
                 image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80",
                 title: "M. LA DIRECTION",
-                options: ["M. Thomas (Atelier)", "M. Robert (Eco-Gestion)", "M. Le Proviseur Adjoint"],
+                options: ["M. Richard (Maintenance)", "M. Durand (Physique)", "M. Le Proviseur Adjoint", "M. Moreau (Arts)"],
                 correct: 2
             },
             {
                 image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80",
                 title: "M. ATELIER",
-                options: ["M. Richard (Maintenance)", "M. Durand (Physique)", "M. Moreau (Arts)"],
+                options: ["M. Richard (Maintenance)", "M. Faure (HG)", "M. Girard (Anglais)", "M. Lemoine (EPS)"],
                 correct: 0
             }
         ];
 
+        const letters = ["A", "B", "C", "D"];
         let currentQuestion = 0;
         let score = 0;
         let userData = { classRoom: "" };
 
         window.onload = function() {
-            if(localStorage.getItem('turgot_movember_played')) {
+            if (localStorage.getItem('turgot_movember_played')) {
                 document.getElementById('form-content').style.display = 'none';
                 document.getElementById('blocked-container').style.display = 'block';
             }
@@ -443,6 +700,7 @@
 
         function startQuiz() {
             userData.classRoom = document.getElementById('student-class').value;
+            document.getElementById('active-class-badge').innerText = `Classe : ${userData.classRoom}`;
 
             document.getElementById('screen-welcome').classList.remove('active');
             document.getElementById('screen-quiz').classList.add('active');
@@ -450,15 +708,24 @@
         }
 
         function loadQuestion() {
-            if(currentQuestion >= quizData.length) {
+            if (currentQuestion >= quizData.length) {
                 endQuiz();
                 return;
             }
 
             const q = quizData[currentQuestion];
-            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} sur ${quizData.length}`;
-            document.getElementById('quiz-img').src = q.image;
-            document.getElementById('name-banner').innerText = "M. ❓ Mystère";
+            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} / ${quizData.length}`;
+            
+            const progressPercent = ((currentQuestion) / quizData.length) * 100;
+            document.getElementById('progress-bar').style.width = Math.max(15, progressPercent) + '%';
+
+            const imgEl = document.getElementById('quiz-img');
+            imgEl.classList.remove('revealed');
+            imgEl.src = q.image;
+
+            const bannerEl = document.getElementById('name-banner');
+            bannerEl.classList.remove('revealed');
+            bannerEl.innerText = "M. ❓ Mystère";
 
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
@@ -466,7 +733,11 @@
             q.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerHTML = `<span>${opt}</span>`;
+                btn.innerHTML = `
+                    <span class="option-letter">${letters[index]}</span>
+                    <span class="option-label">${opt}</span>
+                    <span class="option-status"></span>
+                `;
                 btn.onclick = () => selectAnswer(index, q.correct);
                 optionsGrid.appendChild(btn);
             });
@@ -476,18 +747,25 @@
             const q = quizData[currentQuestion];
             const buttons = document.querySelectorAll('.option-btn');
 
-            document.getElementById('name-banner').innerText = q.title;
+            const bannerEl = document.getElementById('name-banner');
+            bannerEl.innerText = q.title;
+            bannerEl.classList.add('revealed');
+
+            document.getElementById('quiz-img').classList.add('revealed');
 
             buttons.forEach((btn, idx) => {
                 btn.disabled = true;
-                if(idx === correctIndex) {
+                const statusSpan = btn.querySelector('.option-status');
+                if (idx === correctIndex) {
                     btn.classList.add('correct');
-                } else if(idx === selectedIndex) {
+                    statusSpan.innerText = "✓";
+                } else if (idx === selectedIndex) {
                     btn.classList.add('incorrect');
+                    statusSpan.innerText = "✗";
                 }
             });
 
-            if(selectedIndex === correctIndex) {
+            if (selectedIndex === correctIndex) {
                 score++;
             }
 
@@ -497,13 +775,11 @@
             }, 1600);
         }
 
-       function endQuiz() {
+        function endQuiz() {
             localStorage.setItem('turgot_movember_played', 'true');
 
-            // URL de ton Google Sheets
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwMkNGKtUwOJJ9q2F2URAJKRtISzPqi3h-QSJG3sXO7ZBI7KERXvsMcklS0-AssICne/exec';
 
-            // Envoi discret des données vers ton Google Sheets
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -514,8 +790,14 @@
             document.getElementById('screen-quiz').classList.remove('active');
             document.getElementById('screen-results').classList.add('active');
 
-            document.getElementById('final-score-text').innerText = `Score : ${score} / ${quizData.length}`;
-            document.getElementById('class-notif').innerText = `Participation enregistrée pour la classe : ${userData.classRoom} !`;
+            document.getElementById('final-score-text').innerText = `${score} / ${quizData.length}`;
+            document.getElementById('class-notif').innerText = `Participation validée pour la ${userData.classRoom}`;
+        }
+
+        // Fonction cachée pour te permettre de réinitialiser le quiz pendant tes tests
+        function resetQuizAdmin() {
+            localStorage.removeItem('turgot_movember_played');
+            location.reload();
         }
     </script>
 </body>
