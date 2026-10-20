@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movember au Lycée Professionnel Turgot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --turgot-blue: #00195B;
+            --turgot-green: #85c431;
+            --turgot-green-hover: #75ad28;
+            --turgot-light: #f4f7fa;
+            --turgot-dark: #0a1128;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--turgot-dark);
+            color: var(--turgot-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .poster-container {
+            width: 100%;
+            max-width: 480px;
+            background: #ffffff;
+            border: 6px solid var(--turgot-blue);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+            padding: 20px;
+            position: relative;
+            border-radius: 8px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px double var(--turgot-blue);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .logo-area {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.9rem;
+            color: var(--turgot-blue);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .subtitle-banner {
+            background: var(--turgot-blue);
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            display: inline-block;
+            margin-top: 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            border-left: 4px solid var(--turgot-green);
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .intro-text {
+            text-align: center;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--turgot-blue);
+            font-size: 0.85rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--turgot-blue);
+            background: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            border-radius: 6px;
+            color: var(--turgot-dark);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background: var(--turgot-green);
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: var(--turgot-green-hover);
+            transform: translateY(-1px);
+        }
+
+        .quiz-card {
+            text-align: center;
+        }
+
+        .question-counter {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--turgot-blue);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .photo-frame-container {
+            width: 190px;
+            height: 190px;
+            margin: 0 auto 10px auto;
+            border: 5px solid var(--turgot-blue);
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            background: #cbd5e1;
+            position: relative;
+        }
+
+        .photo-frame-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(25%) contrast(110%);
+        }
+
+        .name-banner {
+            background: var(--turgot-blue);
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            padding: 6px 14px;
+            display: inline-block;
+            border: 2px solid var(--turgot-green);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: var(--turgot-light);
+            border: 2px solid var(--turgot-blue);
+            padding: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--turgot-blue);
+        }
+
+        .option-btn:hover {
+            background: #e1ecf8;
+            border-color: var(--turgot-green);
+        }
+
+        .option-btn.correct {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            color: #155724;
+        }
+
+        .option-btn.incorrect {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #721c24;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .score-box {
+            font-size: 2rem;
+            font-family: 'Cinzel', serif;
+            color: var(--turgot-blue);
+            margin: 8px 0;
+        }
+
+        .awareness-card {
+            background: var(--turgot-light);
+            border: 2px solid var(--turgot-blue);
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .awareness-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: var(--turgot-blue);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .awareness-card ul {
+            list-style: none;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .awareness-card li {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .awareness-card li::before {
+            content: "•";
+            color: var(--turgot-green);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 15px;
+            border-top: 2px solid var(--turgot-blue);
+            padding-top: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--turgot-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .blocked-msg {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.95rem;
+            color: #721c24;
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poster-container">
+        <header>
+            <div class="logo-area">Lycée Professionnel Turgot • Roubaix</div>
+            <h1>Movember</h1>
+            <div class="subtitle-banner">Le Quiz des Moustaches</div>
+        </header>
+
+        <!-- ÉCRAN 1 : ACCUEIL -->
+        <div id="screen-welcome" class="screen active">
+            <div class="intro-text">
+                Défiez vos amis ! Sauriez-vous reconnaître les moustaches légendaires du personnel de Turgot ? Testez vos connaissances et soutenez la santé masculine.
+            </div>
+
+            <div id="form-content">
+                <div class="form-group">
+                    <label for="student-class">Sélectionnez votre classe :</label>
+                    <select id="student-class">
+                        <option value="1ELEC">1ELEC</option>
+                        <option value="1EPCA">1EPCA</option>
+                        <option value="1EPCB">1EPCB</option>
+                        <option value="1MCVA1">1MCVA1</option>
+                        <option value="1MCVA2">1MCVA2</option>
+                        <option value="1MCVA3">1MCVA3</option>
+                        <option value="1MCVA4">1MCVA4</option>
+                        <option value="1MCVB">1MCVB</option>
+                        <option value="1MELECA">1MELECA</option>
+                        <option value="1MELECB">1MELECB</option>
+                        <option value="2MRCA">2MRCA</option>
+                        <option value="2MRCB">2MRCB</option>
+                        <option value="2MRCC">2MRCC</option>
+                        <option value="2MRCD">2MRCD</option>
+                        <option value="2TENA">2TENA</option>
+                        <option value="2TENB">2TENB</option>
+                        <option value="TELEC">TELEC</option>
+                        <option value="TEPCA">TEPCA</option>
+                        <option value="TEPCB">TEPCB</option>
+                        <option value="TMCVA1">TMCVA1</option>
+                        <option value="TMCVA2">TMCVA2</option>
+                        <option value="TMCVA3">TMCVA3</option>
+                        <option value="TMCVA4">TMCVA4</option>
+                        <option value="TMCVAD">TMCVAD</option>
+                        <option value="TMCVB">TMCVB</option>
+                        <option value="TMELECA">TMELECA</option>
+                        <option value="TMELECB">TMELECB</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="startQuiz()">Commencer le Quiz</button>
+            </div>
+
+            <div id="blocked-container" style="display: none;" class="blocked-msg">
+                ⚠️ Tu as déjà participé depuis cet appareil ! Merci d'avoir joué le jeu pour le Lycée Turgot. Retrouve les résultats à la fin du mois !
+            </div>
+        </div>
+
+        <!-- ÉCRAN 2 : QUIZ -->
+        <div id="screen-quiz" class="screen">
+            <div class="quiz-card">
+                <div class="question-counter" id="question-counter">Question 1 sur 4</div>
+                
+                <div class="photo-frame-container">
+                    <img id="quiz-img" src="" alt="Moustache Mystère">
+                </div>
+
+                <div class="name-banner" id="name-banner">M. ❓</div>
+
+                <div class="options-grid" id="options-grid"></div>
+            </div>
+        </div>
+
+        <!-- ÉCRAN 3 : RÉSULTATS & SENSIBILISATION -->
+        <div id="screen-results" class="screen">
+            <div class="results-header">
+                <h2 style="font-family: 'Cinzel', serif; color: var(--turgot-blue);">Quiz Terminé !</h2>
+                <div class="score-box" id="final-score-text">Score : 4/4</div>
+                <p id="class-notif" style="font-size: 0.85rem; color: var(--turgot-blue); font-weight: 600;"></p>
+            </div>
+
+            <div class="awareness-card">
+                <h3>🛑 Derrière la moustache, un vrai combat !</h3>
+                <ul>
+                    <li><strong>Santé mentale :</strong> Le suicide touche particulièrement les jeunes hommes. Oser dire "ça ne va pas" et écouter ses proches sauve des vies.</li>
+                    <li><strong>Dépistage précoce :</strong> Les cancers de la prostate et des testicules détectés à temps se soignent à plus de 95 %. Restons vigilants.</li>
+                    <li><strong>Solidarité Turgot :</strong> Prenons soin de nous, garçons comme filles !</li>
+                </ul>
+            </div>
+
+            <button class="btn" onclick="location.reload()">Retour à l'accueil</button>
+        </div>
+
+        <footer>
+            Novembre 2026 • Soutenez la santé masculine
+        </footer>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+                title: "M. DUPONT",
+                options: ["M. Dupont (Maths)", "M. Martin (Histoire)", "M. Bernard (EPS)"],
+                correct: 0
+            },
+            {
+                image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+                title: "M. LE CPE",
+                options: ["M. Leroy (Agent)", "M. Le CPE", "M. Petit (Lettres)"],
+                correct: 1
+            },
+            {
+                image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80",
+                title: "M. LA DIRECTION",
+                options: ["M. Thomas (Atelier)", "M. Robert (Eco-Gestion)", "M. Le Proviseur Adjoint"],
+                correct: 2
+            },
+            {
+                image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80",
+                title: "M. ATELIER",
+                options: ["M. Richard (Maintenance)", "M. Durand (Physique)", "M. Moreau (Arts)"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userData = { classRoom: "" };
+
+        window.onload = function() {
+            if(localStorage.getItem('turgot_movember_played')) {
+                document.getElementById('form-content').style.display = 'none';
+                document.getElementById('blocked-container').style.display = 'block';
+            }
+        };
+
+        function startQuiz() {
+            userData.classRoom = document.getElementById('student-class').value;
+
+            document.getElementById('screen-welcome').classList.remove('active');
+            document.getElementById('screen-quiz').classList.add('active');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if(currentQuestion >= quizData.length) {
+                endQuiz();
+                return;
+            }
+
+            const q = quizData[currentQuestion];
+            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} sur ${quizData.length}`;
+            document.getElementById('quiz-img').src = q.image;
+            document.getElementById('name-banner').innerText = "M. ❓ Mystère";
+
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span>${opt}</span>`;
+                btn.onclick = () => selectAnswer(index, q.correct);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex, correctIndex) {
+            const q = quizData[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+
+            document.getElementById('name-banner').innerText = q.title;
+
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if(idx === correctIndex) {
+                    btn.classList.add('correct');
+                } else if(idx === selectedIndex) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if(selectedIndex === correctIndex) {
+                score++;
+            }
+
+            setTimeout(() => {
+                currentQuestion++;
+                loadQuestion();
+            }, 1600);
+        }
+
+       function endQuiz() {
+            localStorage.setItem('turgot_movember_played', 'true');
+
+            // URL de ton Google Sheets
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwMkNGKtUwOJJ9q2F2URAJKRtISzPqi3h-QSJG3sXO7ZBI7KERXvsMcklS0-AssICne/exec';
+
+            // Envoi discret des données vers ton Google Sheets
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ class: userData.classRoom, score: score + "/" + quizData.length })
+            }).catch(error => console.error('Erreur!', error.message));
+
+            document.getElementById('screen-quiz').classList.remove('active');
+            document.getElementById('screen-results').classList.add('active');
+
+            document.getElementById('final-score-text').innerText = `Score : ${score} / ${quizData.length}`;
+            document.getElementById('class-notif').innerText = `Participation enregistrée pour la classe : ${userData.classRoom} !`;
+        }
+    </script>
+</body>
+</html>
