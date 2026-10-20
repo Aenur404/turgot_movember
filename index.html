@@ -10,7 +10,6 @@
             --turgot-blue: #00195B;
             --turgot-blue-light: #1e3a8a;
             --turgot-green: #85c431;
-            --turgot-neon: #80ff00;
             --turgot-dark: #070b19;
             --surface: #ffffff;
             --bg-light: #f8fafc;
@@ -50,18 +49,18 @@
             position: relative;
         }
 
-        /* Bandeau Noir pour intégrer parfaitement logo_turgot.jpg */
+        /* Bandeau Blanc épuré pour le nouveau logo */
         .brand-header {
-            background: #000000;
-            padding: 18px 20px 14px 20px;
+            background: #ffffff;
+            padding: 20px 24px 16px 24px;
             text-align: center;
             border-bottom: 4px solid var(--turgot-green);
             position: relative;
         }
 
         .school-logo {
-            max-width: 250px;
-            width: 80%;
+            max-width: 280px;
+            width: 88%;
             height: auto;
             display: block;
             margin: 0 auto;
@@ -323,7 +322,7 @@
 
         .mystery-ribbon.revealed {
             background: var(--turgot-green);
-            color: #000000;
+            color: #ffffff;
         }
 
         /* Grille de 4 boutons de réponse avec pastilles A, B, C, D */
@@ -531,12 +530,9 @@
 <body>
 
     <div class="app-card">
-        <!-- Bandeau Noir avec le logo du LP Turgot -->
+        <!-- Bandeau Blanc avec le nouveau logo du LP Turgot -->
         <div class="brand-header">
-            <img src="logo_turgot.png" alt="Logo Lycée Professionnel Turgot" class="school-logo" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
-            <div id="fallback-logo" style="display:none; color:#fff; font-family:'Cinzel',serif; font-weight:700; letter-spacing:1.5px;">
-                LYCÉE PROFESSIONNEL <span style="color:var(--turgot-green);">TURGOT</span>
-            </div>
+            <img src="logo_turgot2.png" alt="Logo Lycée Professionnel Turgot" class="school-logo" onerror="this.onerror=null; this.src='logo_turgot.png';">
         </div>
 
         <!-- Sous-bannière Movember -->
@@ -687,9 +683,38 @@
         ];
 
         const letters = ["A", "B", "C", "D"];
+        let shuffledQuiz = [];
         let currentQuestion = 0;
         let score = 0;
         let userData = { classRoom: "" };
+
+        // Algorithme de Fisher-Yates pour mélanger un tableau aléatoirement
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Prépare le quiz en mélangeant l'ordre des questions ET l'ordre des 4 réponses
+        function prepareShuffledQuiz() {
+            const randomQuestions = shuffleArray(quizData);
+            shuffledQuiz = randomQuestions.map(q => {
+                const optionsWithFlag = q.options.map((optText, idx) => ({
+                    text: optText,
+                    isCorrect: idx === q.correct
+                }));
+                const randomOptions = shuffleArray(optionsWithFlag);
+                return {
+                    image: q.image,
+                    title: q.title,
+                    options: randomOptions.map(o => o.text),
+                    correct: randomOptions.findIndex(o => o.isCorrect)
+                };
+            });
+        }
 
         window.onload = function() {
             if (localStorage.getItem('turgot_movember_played')) {
@@ -702,21 +727,25 @@
             userData.classRoom = document.getElementById('student-class').value;
             document.getElementById('active-class-badge').innerText = `Classe : ${userData.classRoom}`;
 
+            prepareShuffledQuiz();
+            currentQuestion = 0;
+            score = 0;
+
             document.getElementById('screen-welcome').classList.remove('active');
             document.getElementById('screen-quiz').classList.add('active');
             loadQuestion();
         }
 
         function loadQuestion() {
-            if (currentQuestion >= quizData.length) {
+            if (currentQuestion >= shuffledQuiz.length) {
                 endQuiz();
                 return;
             }
 
-            const q = quizData[currentQuestion];
-            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} / ${quizData.length}`;
+            const q = shuffledQuiz[currentQuestion];
+            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} / ${shuffledQuiz.length}`;
             
-            const progressPercent = ((currentQuestion) / quizData.length) * 100;
+            const progressPercent = ((currentQuestion) / shuffledQuiz.length) * 100;
             document.getElementById('progress-bar').style.width = Math.max(15, progressPercent) + '%';
 
             const imgEl = document.getElementById('quiz-img');
@@ -744,7 +773,7 @@
         }
 
         function selectAnswer(selectedIndex, correctIndex) {
-            const q = quizData[currentQuestion];
+            const q = shuffledQuiz[currentQuestion];
             const buttons = document.querySelectorAll('.option-btn');
 
             const bannerEl = document.getElementById('name-banner');
@@ -784,17 +813,16 @@
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ class: userData.classRoom, score: score + "/" + quizData.length })
+                body: JSON.stringify({ class: userData.classRoom, score: score + "/" + shuffledQuiz.length })
             }).catch(error => console.error('Erreur!', error.message));
 
             document.getElementById('screen-quiz').classList.remove('active');
             document.getElementById('screen-results').classList.add('active');
 
-            document.getElementById('final-score-text').innerText = `${score} / ${quizData.length}`;
+            document.getElementById('final-score-text').innerText = `${score} / ${shuffledQuiz.length}`;
             document.getElementById('class-notif').innerText = `Participation validée pour la ${userData.classRoom}`;
         }
 
-        // Fonction cachée pour te permettre de réinitialiser le quiz pendant tes tests
         function resetQuizAdmin() {
             localStorage.removeItem('turgot_movember_played');
             location.reload();
