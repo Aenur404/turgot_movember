@@ -49,7 +49,7 @@
             position: relative;
         }
 
-        /* Bandeau Blanc épuré pour le nouveau logo */
+        /* Bandeau Blanc épuré pour le logo */
         .brand-header {
             background: #ffffff;
             padding: 20px 24px 16px 24px;
@@ -263,7 +263,7 @@
             transition: width 0.4s ease;
         }
 
-        /* Cadre Photo & Ruban */
+        /* Cadre Photo & Filtre Bleu style Affiche Movember */
         .portrait-section {
             position: relative;
             text-align: center;
@@ -271,13 +271,13 @@
         }
 
         .photo-ring {
-            width: 165px;
-            height: 165px;
+            width: 170px;
+            height: 170px;
             margin: 0 auto;
             border-radius: 50%;
             padding: 5px;
             background: linear-gradient(135deg, var(--turgot-blue), var(--turgot-green));
-            box-shadow: 0 10px 25px rgba(0, 25, 91, 0.22);
+            box-shadow: 0 10px 25px rgba(0, 25, 91, 0.25);
         }
 
         .photo-inner {
@@ -285,36 +285,21 @@
             height: 100%;
             border-radius: 50%;
             overflow: hidden;
-            background: var(--turgot-blue);
+            background: #bce0fd;
             border: 3px solid #ffffff;
-            position: relative; /* Indispensable pour superposer le voile bleu */
-        }
-
-        /* Calque de filtre bleu Turgot par-dessus la photo */
-        .photo-inner::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 25, 91, 0.55); /* Bleu Turgot semi-transparent */
-            mix-blend-mode: color; /* Teinte l'image en profondeur */
-            transition: opacity 0.4s ease;
-            pointer-events: none;
+            position: relative;
         }
 
         .photo-inner img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Noir & blanc contrasté sous le calque bleu = effet duotone bleu */
-            filter: grayscale(100%) contrast(115%) brightness(95%);
+            /* Filtre monochrome bleu profond façon affiche Movember */
+            filter: grayscale(100%) brightness(0.85) sepia(100%) hue-rotate(180deg) saturate(350%) contrast(115%);
             transition: transform 0.4s ease, filter 0.4s ease;
         }
 
-        /* Quand l'élève clique : le filtre bleu disparaît et les vraies couleurs reviennent */
-        .photo-inner.revealed::after {
-            opacity: 0;
-        }
-
+        /* Révélation en vraies couleurs au clic */
         .photo-inner.revealed img {
             filter: none;
             transform: scale(1.06);
@@ -430,7 +415,7 @@
             color: #991b1b !important;
         }
 
-        /* Écran 3 : Résultats */
+        /* Écran 3 : Résultats & Partage */
         .score-card {
             text-align: center;
             background: linear-gradient(135deg, var(--turgot-blue) 0%, #0d2875 100%);
@@ -472,7 +457,7 @@
             border-left: 4px solid var(--turgot-green);
             padding: 15px;
             border-radius: var(--radius-md);
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .awareness-box h3 {
@@ -486,7 +471,7 @@
 
         .awareness-box ul {
             list-style: none;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             line-height: 1.5;
             color: #334155;
         }
@@ -503,6 +488,21 @@
             position: absolute;
             left: 0;
             font-weight: bold;
+        }
+
+        .btn-share {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            box-shadow: 0 6px 15px rgba(253, 29, 29, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .btn-share:hover {
+            box-shadow: 0 10px 20px rgba(253, 29, 29, 0.45);
+        }
+
+        .btn-dark {
+            background: var(--turgot-dark);
+            box-shadow: none;
         }
 
         .blocked-msg {
@@ -548,7 +548,7 @@
 <body>
 
     <div class="app-card">
-        <!-- Bandeau Blanc avec le nouveau logo du LP Turgot -->
+        <!-- Bandeau Blanc avec le logo du LP Turgot -->
         <div class="brand-header">
             <img src="logo_turgot2.png" alt="Logo Lycée Professionnel Turgot" class="school-logo" onerror="this.onerror=null; this.src='logo_turgot.png';">
         </div>
@@ -569,12 +569,12 @@
                 </div>
 
                 <div class="intro-text">
-                    Saurez-vous reconnaître qui se cache derrière les moustaches du lycée ? Sélectionnez votre classe et tentez un sans-faute pour remporter le défi !
+                    Tu penses reconnaître qui se cache derrière les moustaches du lycée ? Choisis ta classe et tente le sans-faute pour faire grimper ton équipe au classement !
                 </div>
 
                 <div id="form-content">
                     <div class="form-group">
-                        <label for="student-class">Votre classe :</label>
+                        <label for="student-class">Ta classe :</label>
                         <div class="select-wrapper">
                             <select id="student-class">
                                 <option value="1ELEC">1ELEC</option>
@@ -617,8 +617,8 @@
                 </div>
 
                 <div id="blocked-container" style="display: none;" class="blocked-msg">
-                    🎉 <strong>Participation déjà enregistrée !</strong><br><br>
-                    Merci d'avoir défendu les couleurs de ta classe. Rendez-vous à la fin du mois pour découvrir le classement du Lycée Turgot !
+                    🎉 <strong>Participation déjà validée !</strong><br><br>
+                    Bien joué d'avoir représenté ta classe. Rendez-vous fin novembre pour voir qui domine le classement à Turgot !
                 </div>
             </div>
 
@@ -635,7 +635,7 @@
 
                 <div class="portrait-section">
                     <div class="photo-ring">
-                        <div class="photo-inner">
+                        <div class="photo-inner" id="photo-container">
                             <img id="quiz-img" src="" alt="Moustache Mystère">
                         </div>
                     </div>
@@ -648,21 +648,27 @@
             <!-- ÉCRAN 3 : RÉSULTATS -->
             <div id="screen-results" class="screen">
                 <div class="score-card">
-                    <div class="score-title">Score Final</div>
+                    <div class="score-title">Ton Score Movember</div>
                     <div class="score-number" id="final-score-text">4 / 4</div>
                     <div class="score-class" id="class-notif">Classe : ---</div>
                 </div>
 
                 <div class="awareness-box">
-                    <h3>💙 Pourquoi Movember au lycée ?</h3>
+                    <h3>🔥 La vraie life derrière les moustaches</h3>
                     <ul>
-                        <li><strong>Santé mentale :</strong> Parler de ses difficultés et demander de l'aide est une vraie preuve de force, pas une faiblesse.</li>
-                        <li><strong>Prévention :</strong> S'informer tôt sur les maladies masculines permet un dépistage efficace à plus de 95 %.</li>
-                        <li><strong>Esprit d'équipe :</strong> À Turgot, on veille les uns sur les autres !</li>
+                        <li><strong>Santé mentale :</strong> Ça sert à rien de garder tout pour soi quand ça va pas. Parler, c'est pas une faiblesse.</li>
+                        <li><strong>Dépistage :</strong> Un petit contrôle médical à temps, ça évite de grosses galères.</li>
+                        <li><strong>Turgot squad :</strong> On prend soin de ses potes, peu importe le genre.</li>
                     </ul>
                 </div>
 
-                <button class="btn-primary" onclick="location.reload()">Terminer</button>
+                <button class="btn-primary btn-share" onclick="shareScore()">
+                    <span>📲 Partager mon score (Snap/Insta)</span>
+                </button>
+
+                <button class="btn-primary btn-dark" onclick="location.reload()">
+                    <span>Terminer</span>
+                </button>
             </div>
         </div>
 
@@ -716,7 +722,7 @@
             return arr;
         }
 
-        // Prépare le quiz en mélangeant l'ordre des questions ET l'ordre des 4 réponses
+        // Mélange à la fois l'ordre des questions et l'ordre des 4 réponses
         function prepareShuffledQuiz() {
             const randomQuestions = shuffleArray(quizData);
             shuffledQuiz = randomQuestions.map(q => {
@@ -766,9 +772,10 @@
             const progressPercent = ((currentQuestion) / shuffledQuiz.length) * 100;
             document.getElementById('progress-bar').style.width = Math.max(15, progressPercent) + '%';
 
-            const imgEl = document.getElementById('quiz-img');
-            imgEl.parentElement.classList.remove('revealed');
-            imgEl.src = q.image;
+            // Réactive le filtre bleu pour la nouvelle photo
+            const photoContainer = document.getElementById('photo-container');
+            photoContainer.classList.remove('revealed');
+            document.getElementById('quiz-img').src = q.image;
 
             const bannerEl = document.getElementById('name-banner');
             bannerEl.classList.remove('revealed');
@@ -798,7 +805,8 @@
             bannerEl.innerText = q.title;
             bannerEl.classList.add('revealed');
 
-            document.getElementById('quiz-img').parentElement.classList.add('revealed');
+            // Retire le filtre bleu pour révéler la photo en vraies couleurs
+            document.getElementById('photo-container').classList.add('revealed');
 
             buttons.forEach((btn, idx) => {
                 btn.disabled = true;
@@ -838,9 +846,29 @@
             document.getElementById('screen-results').classList.add('active');
 
             document.getElementById('final-score-text').innerText = `${score} / ${shuffledQuiz.length}`;
-            document.getElementById('class-notif').innerText = `Participation validée pour la ${userData.classRoom}`;
+            document.getElementById('class-notif').innerText = `Score enregistré pour la ${userData.classRoom}`;
         }
 
+        // Partage natif sur mobile (Snap, Insta, TikTok, WhatsApp...) ou copie dans le presse-papier sur PC
+        function shareScore() {
+            const shareText = `J'ai plié le quiz Movember de Turgot avec ${score}/${shuffledQuiz.length} (${userData.classRoom}) ! 🥸🔥 Viens tester si tu reconnais les moustaches du lycée :`;
+            const shareUrl = 'https://aenur404.github.io/turgot_movember/';
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Movember LP Turgot',
+                    text: shareText,
+                    url: shareUrl
+                }).catch(() => {});
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+                alert("Message et lien copiés ! 📸 Fais une capture d'écran de ton score et colle le texte dans ta story !");
+            } else {
+                alert("Fais une capture d'écran de ton score pour ta story ! 📸");
+            }
+        }
+
+        // Cadenas caché en bas à droite pour réinitialiser tes tests
         function resetQuizAdmin() {
             localStorage.removeItem('turgot_movember_played');
             location.reload();
