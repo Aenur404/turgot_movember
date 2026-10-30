@@ -604,9 +604,7 @@
                                 <option value="TMCVB">TMCVB</option>
                                 <option value="TMELECA">TMELECA</option>
                                 <option value="TMELECB">TMELECB</option>
-                                <option value="PAE BAC">PAE BAC</option>
-                                <option value="PAE CAP">PAE CAP</option>
-                                <option value="PREOR">PREOR</option>
+                                <option value="PERSONNELS DU LYCEE">PERSONNELS DU LYCEE</option>
                             </select>
                         </div>
                     </div>
@@ -654,16 +652,16 @@
                 </div>
 
                 <div class="awareness-box">
-                    <h3>🔥 La vraie life derrière les moustaches</h3>
+                    <h3>🔥 Le vrai combat derrière les moustaches</h3>
                     <ul>
-                        <li><strong>Santé mentale :</strong> Ça sert à rien de garder tout pour soi quand ça va pas. Parler, c'est pas une faiblesse.</li>
-                        <li><strong>Dépistage :</strong> Un petit contrôle médical à temps, ça évite de grosses galères.</li>
-                        <li><strong>Turgot squad :</strong> On prend soin de ses potes, peu importe le genre.</li>
+                        <li><strong>Santé mentale :</strong> Ça ne sert à rien de tout garder pour soi quand ça ne va pas. Parler, ce n'est pas une faiblesse.</li>
+                        <li><strong>Dépistage :</strong> Un petit contrôle médical à temps, ça évite les galères.</li>
+                        <li><strong>#Team Turgot :</strong> Fais attention à tes potes et aux autres, c'est important.</li>
                     </ul>
                 </div>
 
                 <button class="btn-primary btn-share" onclick="shareScore()">
-                    <span>📲 Partager mon score (Snap/Insta)</span>
+                    <span>📲 Partager mon score</span>
                 </button>
 
                 <button class="btn-primary btn-dark" onclick="location.reload()">
@@ -851,7 +849,7 @@
 
         // Partage natif sur mobile (Snap, Insta, TikTok, WhatsApp...) ou copie dans le presse-papier sur PC
         function shareScore() {
-            const shareText = `J'ai plié le quiz Movember de Turgot avec ${score}/${shuffledQuiz.length} (${userData.classRoom}) ! 🥸🔥 Viens tester si tu reconnais les moustaches du lycée :`;
+            const shareText = `J'ai terminé le quiz Movember de Turgot avec ${score}/${shuffledQuiz.length} (${userData.classRoom}) ! 🥸🔥 Viens tester si tu reconnais les moustaches du lycée :`;
             const shareUrl = 'https://aenur404.github.io/turgot_movember/';
 
             if (navigator.share) {
