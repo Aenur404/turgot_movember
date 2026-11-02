@@ -323,6 +323,21 @@
             transition: var(--transition);
         }
 
+        .style-tag {
+            display: block;
+            margin: 8px auto 0 auto;
+            font-size: 0.78rem;
+            font-weight: 700;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+            color: var(--turgot-blue);
+         background: #e2e8f0;
+         padding: 4px 14px;
+            border-radius: 99px;
+            width: fit-content;
+            border: 1px solid #cbd5e1;
+}
+
         .mystery-ribbon.revealed {
             background: var(--turgot-green);
             color: #ffffff;
@@ -638,7 +653,9 @@
                         </div>
                     </div>
                     <div class="mystery-ribbon" id="name-banner">M. ❓ Mystère</div>
+                    <div class="style-tag" id="style-tag">Style : ---</div>
                 </div>
+                    
 
                 <div class="options-list" id="options-grid"></div>
             </div>
@@ -680,24 +697,28 @@
         const quizData = [
             {
                 image: "m1.jpg",
+                mustacheTitle: "« La classique»",
                 title: "LA CLASSIQUE",
                 options: ["M. Bisiaux", "M. Vernier", "M. Yahlali", "M. Baudouin"],
                 correct: 0
             },
             {
                 image: "m2.jpg",
+                mustacheTitle: "« L'élégante »",
                 title: "L'ELEGANTE",
                 options: ["M. Lanza", "M. Vernier", "M. Bouzakri", "M. Hammaoui"],
                 correct: 1
             },
             {
                 image: "m3.jpg",
+                mustacheTitle: "« La diplomate »",
                 title: "LA DIPLOMATE",
                 options: ["M. Rayet", "M. Bousnane", "M. Belibel", "M. Dequeker"],
                 correct: 2
             },
             {
                 image: "m4.jpg",
+                mustacheTitle: "« L'Impériale »",
                 title: "L'IMPERIALE",
                 options: ["M. Valentini", "M. Lakrouf", "M. Belibel", "M. Decloitre"],
                 correct: 0
@@ -732,6 +753,7 @@
                 return {
                     image: q.image,
                     title: q.title,
+                    mustacheTitle: q.mustacheTitle,
                     options: randomOptions.map(o => o.text),
                     correct: randomOptions.findIndex(o => o.isCorrect)
                 };
@@ -770,6 +792,8 @@
             const progressPercent = ((currentQuestion) / shuffledQuiz.length) * 100;
             document.getElementById('progress-bar').style.width = Math.max(15, progressPercent) + '%';
 
+            
+
             // Réactive le filtre bleu pour la nouvelle photo
             const photoContainer = document.getElementById('photo-container');
             photoContainer.classList.remove('revealed');
@@ -778,6 +802,8 @@
             const bannerEl = document.getElementById('name-banner');
             bannerEl.classList.remove('revealed');
             bannerEl.innerText = "M. ❓ Mystère";
+
+            document.getElementById('style-tag').innerText = `Style : ${q.mustacheTitle}`;
 
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
